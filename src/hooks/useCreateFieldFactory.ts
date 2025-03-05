@@ -1,8 +1,15 @@
+import {
+    CreateBasicFieldFunction,
+    CreateCheckboxFieldFunction,
+    CreateFieldFunctions,
+    CreateRadioFieldFunction,
+} from "@/components/types"
 import { useState } from "react"
-import { CreateFieldFunction } from "../components/FormWrapper"
 
 export const useCreateFieldFactory = () => {
-    const defaultValue: CreateFieldFunction = (name) => ({ name })
+    const basic: CreateBasicFieldFunction = () => ({})
+    const radio: CreateRadioFieldFunction = () => ({})
+    const checkbox: CreateCheckboxFieldFunction = () => ({})
 
-    return useState<CreateFieldFunction>(() => defaultValue)
+    return useState<CreateFieldFunctions>({ basic, radio, checkbox })
 }

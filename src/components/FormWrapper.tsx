@@ -1,36 +1,26 @@
 import {
-    ChangeEventHandler,
     CSSProperties,
     Dispatch,
     FC,
-    FocusEventHandler,
-    HTMLInputTypeAttribute,
     ReactNode,
     SetStateAction,
     useContext,
     useEffect,
 } from "react"
 import { FormikContext } from "formik"
-
-// Types and interfaces
-
-export type CreateFieldFunction = (name: string) => {
-    onChange?: ChangeEventHandler
-    onBlur?: FocusEventHandler
-    name?: string
-    value?: any
-    type?: HTMLInputTypeAttribute
-    defaultValue?: any
-}
+import {
+    CreateBasicFieldFunction,
+    CreateCheckboxFieldFunction,
+    CreateFieldFunctions,
+    CreateRadioFieldFunction,
+} from "./types"
 
 interface Props {
-    setCreateField?: Dispatch<SetStateAction<CreateFieldFunction>>
+    setCreateField?: Dispatch<SetStateAction<CreateFieldFunctions>>
     children?: ReactNode
     className?: string
     style?: CSSProperties
 }
-
-// FormWrapper
 
 const FormWrapper: FC<Props> = ({
     setCreateField = () => {},
@@ -41,20 +31,25 @@ const FormWrapper: FC<Props> = ({
     const formikContext = useContext(FormikContext)
 
     useEffect(() => {
-        const value = (
-            name: string,
-            options?: { type?: HTMLInputTypeAttribute; defaultValue?: any },
-        ) => {
-            return {
-                ...options,
-                name,
-                value: formikContext.values[name],
-                onChange: formikContext.handleChange,
-                onBlur: formikContext.handleBlur,
-            }
-        }
+        const basic: CreateBasicFieldFunction = (name, options) => ({
+            ...options,
+            name,
+            value: options?.value || formikContext.values[name],
+            onChange: formikContext.handleChange,
+            onBlur: formikContext.handleBlur,
+        })
 
-        setCreateField(() => value)
+        const radio: CreateRadioFieldFunction = (name) => ({
+            onValueChange: (details) =>
+                formikContext.setFieldValue(name, details.value),
+        })
+
+        const checkbox: CreateCheckboxFieldFunction = (name) => ({
+            onCheckedChange: (details) =>
+                formikContext.setFieldValue(name, details.checked),
+        })
+
+        setCreateField({ basic, radio, checkbox })
     }, [])
 
     return (
