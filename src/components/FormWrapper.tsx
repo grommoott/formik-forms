@@ -9,10 +9,11 @@ import {
 } from "react"
 import { FormikContext } from "formik"
 import {
-    CreateBasicFieldFunction,
+    CreateInputFieldFunction,
     CreateCheckboxFieldFunction,
     CreateFieldFunctions,
     CreateRadioFieldFunction,
+    CreateErrorFieldFunction,
 } from "../types"
 
 interface Props {
@@ -31,10 +32,10 @@ const FormWrapper: FC<Props> = ({
     const formikContext = useContext(FormikContext)
 
     useEffect(() => {
-        const basic: CreateBasicFieldFunction = (name, options) => ({
+        const input: CreateInputFieldFunction = (name, options) => ({
             ...options,
             name,
-            value: options?.value || formikContext.values[name],
+            defaultValue: options?.value || formikContext.values[name],
             onChange: formikContext.handleChange,
             onBlur: formikContext.handleBlur,
         })
@@ -49,7 +50,11 @@ const FormWrapper: FC<Props> = ({
                 formikContext.setFieldValue(name, details.checked),
         })
 
-        setCreateField({ basic, radio, checkbox })
+        const error: CreateErrorFieldFunction = (name) => ({
+            errorText: String(formikContext.errors[name]),
+        })
+
+        setCreateField({ input, radio, checkbox, error })
     }, [])
 
     return (

@@ -8,7 +8,7 @@ import {
     HTMLInputTypeAttribute,
 } from "react"
 
-export type CreateBasicFieldFunction = (
+export type CreateInputFieldFunction = (
     name: string,
     options?: {
         type?: HTMLInputTypeAttribute
@@ -32,8 +32,13 @@ export type CreateCheckboxFieldFunction = (name: string) => {
     onCheckedChange?: (details: CheckboxCheckedChangeDetails) => void
 }
 
+export type CreateErrorFieldFunction = (name: string) => {
+    errorText?: string
+}
+
 export type CreateFieldFunctions = {
-    basic: CreateBasicFieldFunction
+    input: CreateInputFieldFunction
     radio: CreateRadioFieldFunction
     checkbox: CreateCheckboxFieldFunction
+    error: CreateErrorFieldFunction
 }
