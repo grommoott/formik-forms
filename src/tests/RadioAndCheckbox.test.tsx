@@ -1,26 +1,10 @@
 import { render, screen } from "@testing-library/react"
 import { userEvent } from "@testing-library/user-event"
-import { beforeAll, describe, expect, test } from "vitest"
+import { describe, expect, test } from "vitest"
 import RadioAndCheckbox from "./RadioAndCheckbox"
 import "@testing-library/jest-dom"
 
 describe("radio and checkboxes form", () => {
-    beforeAll(() => {
-        Object.defineProperty(window, "matchMedia", {
-            writable: true,
-            value: (query: any) => ({
-                matches: false,
-                media: query,
-                onchange: null,
-                addListener: () => {},
-                removeListener: () => {},
-                addEventListener: () => {},
-                removeEventListener: () => {},
-                dispatchEvent: () => {},
-            }),
-        })
-    })
-
     test("basic interractions", async () => {
         render(<RadioAndCheckbox />)
 
