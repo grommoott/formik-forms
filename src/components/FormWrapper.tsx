@@ -13,7 +13,7 @@ import {
     CreateCheckboxFieldFunction,
     CreateFieldFunctions,
     CreateRadioFieldFunction,
-} from "./types"
+} from "../types"
 
 interface Props {
     setCreateField?: Dispatch<SetStateAction<CreateFieldFunctions>>

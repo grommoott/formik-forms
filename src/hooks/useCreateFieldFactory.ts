@@ -3,13 +3,15 @@ import {
     CreateCheckboxFieldFunction,
     CreateFieldFunctions,
     CreateRadioFieldFunction,
-} from "@/components/types"
+} from "@/types"
 import { useState } from "react"
 
-export const useCreateFieldFactory = () => {
+const useCreateFieldFactory = () => {
     const basic: CreateBasicFieldFunction = () => ({})
     const radio: CreateRadioFieldFunction = () => ({})
     const checkbox: CreateCheckboxFieldFunction = () => ({})
 
     return useState<CreateFieldFunctions>({ basic, radio, checkbox })
 }
+
+export { useCreateFieldFactory }
