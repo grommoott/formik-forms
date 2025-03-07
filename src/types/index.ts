@@ -2,25 +2,17 @@ import {
     CheckboxCheckedChangeDetails,
     RadioGroupValueChangeDetails,
 } from "@chakra-ui/react"
-import {
-    ChangeEventHandler,
-    FocusEventHandler,
-    HTMLInputTypeAttribute,
-} from "react"
+import { ChangeEventHandler, FocusEventHandler } from "react"
 
 export type CreateInputFieldFunction = (
     name: string,
     options?: {
-        type?: HTMLInputTypeAttribute
         defaultValue?: any
-        value?: any
     },
 ) => {
     onChange?: ChangeEventHandler
     onBlur?: FocusEventHandler
     name?: string
-    value?: any
-    type?: HTMLInputTypeAttribute
     defaultValue?: any
 }
 
@@ -34,6 +26,7 @@ export type CreateCheckboxFieldFunction = (name: string) => {
 
 export type CreateErrorFieldFunction = (name: string) => {
     errorText?: string
+    invalid: boolean
 }
 
 export type CreateFieldFunctions = {

@@ -33,9 +33,8 @@ const FormWrapper: FC<Props> = ({
 
     useEffect(() => {
         const input: CreateInputFieldFunction = (name, options) => ({
-            ...options,
             name,
-            defaultValue: options?.value || formikContext.values[name],
+            defaultValue: options?.defaultValue || formikContext.values[name],
             onChange: formikContext.handleChange,
             onBlur: formikContext.handleBlur,
         })
@@ -50,12 +49,19 @@ const FormWrapper: FC<Props> = ({
                 formikContext.setFieldValue(name, details.checked),
         })
 
-        const error: CreateErrorFieldFunction = (name) => ({
-            errorText: String(formikContext.errors[name]),
-        })
-
-        setCreateField({ input, radio, checkbox, error })
+        setCreateField((prev) => ({ ...prev, input, radio, checkbox }))
     }, [])
+
+    useEffect(() => {
+        const error: CreateErrorFieldFunction = (name) => {
+            return {
+                invalid: !!formikContext.errors[name],
+                errorText: String(formikContext.errors[name]),
+            }
+        }
+
+        setCreateField((prev) => ({ ...prev, error }))
+    }, [formikContext.errors])
 
     return (
         <form
